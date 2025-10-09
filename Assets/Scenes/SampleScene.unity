@@ -223,6 +223,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   speed: 10
+  acceleration: 500
+  deceleration: 60
 --- !u!114 &221471920
 MonoBehaviour:
   m_ObjectHideFlags: 0

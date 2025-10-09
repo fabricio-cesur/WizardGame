@@ -3,6 +3,11 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public float speed = 10f;
+
+    public float acceleration = 500f;
+    public float deceleration = 60f;
+
+    private float current_velocity;
     private Rigidbody2D rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,22 +20,35 @@ public class Movement : MonoBehaviour
     {
         // float variable which will indicate what change to do to the position X
         // if it's 0 then no change will be applied to the X position
-        float horizontal_direction = 0f;
+        float target_velocity = 0f;
 
         //Horizontal Movement
         if (Input.GetKey(KeyCode.A))
         {
-            // subtract to X position each frame
-            horizontal_direction = -1f; 
+            // the change will be the position -X according to the speed
+            target_velocity = -speed; 
         }
         if (Input.GetKey(KeyCode.D))
         {
-            // add to X position each frame
-            horizontal_direction = 1f;
+            // the change will be the position +X according to the speed
+            target_velocity = speed;
+        }
+
+        // player is trying to move
+        if (target_velocity != 0)
+        {
+            // accelerating
+            current_velocity = Mathf.MoveTowards(current_velocity, target_velocity, acceleration * Time.deltaTime);
+        }
+        // player is no longer trying to move
+        else
+        {   
+            // deceleration
+            current_velocity = Mathf.MoveTowards(current_velocity, 0f, deceleration * Time.deltaTime);
         }
 
         // setting velocity to object directly
-        rb.linearVelocity = new Vector2(horizontal_direction * speed, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(current_velocity, rb.linearVelocity.y);
         
     }
 }
