@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public float speed = 5f;            
+    public float speed = 10f;            
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,11 +15,15 @@ public class Movement : MonoBehaviour
     {
         Vector2 direction = Vector2.zero;
 
-        //WASD Movement
-        if (Input.GetKey(KeyCode.W)) { direction += Vector2.up; }
-        if (Input.GetKey(KeyCode.A)) { direction += Vector2.left; }
-        if (Input.GetKey(KeyCode.S)) { direction += Vector2.down; }
-        if (Input.GetKey(KeyCode.D)) { direction += Vector2.right; }
+        //Horizontal Movement
+        if (Input.GetKey(KeyCode.A)) 
+        { 
+            direction += Vector2.left; 
+        }
+        if (Input.GetKey(KeyCode.D)) 
+        { 
+            direction += Vector2.right; 
+        }
 
         if (direction != Vector2.zero)
         {
