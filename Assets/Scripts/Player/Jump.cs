@@ -12,13 +12,20 @@ public class Jump : MonoBehaviour
 
     private SpriteRenderer sr;
     private float player_half_height;
-    private float raycast_ground_length;
+    private float player_half_width;
+    private float center_raycast_ground_length;
     void Start()
     {
+        // getting rigidbody of object
         rb = gameObject.GetComponent<Rigidbody2D>();
+        // getting the sprite renderer of the object PlayerBody
         sr = transform.Find("PlayerBody").GetComponent<SpriteRenderer>();
+        // distance between the center of the sprite and the horizontal border
+        player_half_width= sr.bounds.extents.x;
+        // distance between the center of the sprite and the vertical border
         player_half_height = sr.bounds.extents.y;
-        raycast_ground_length = player_half_height + 0.1f;
+        // we add an extra .1 to that distance so that it touches the ground slightly
+        center_raycast_ground_length = player_half_height + 0.1f;
     }
 
     void Update()
@@ -44,13 +51,23 @@ public class Jump : MonoBehaviour
             buffer_time_counter -= Time.deltaTime;
         }
 
-        Debug.DrawRay(transform.position, Vector2.down * raycast_ground_length, Color.red);
+        // drawing the raycast for debugging
+        Debug.DrawRay(new Vector2(transform.position.x + player_half_width, transform.position.y), Vector2.down * center_raycast_ground_length);
+        Debug.DrawRay(transform.position, Vector2.down * center_raycast_ground_length);
+        Debug.DrawRay(new Vector2(transform.position.x - player_half_width, transform.position.y), Vector2.down * center_raycast_ground_length);
     }
 
     private bool isGrounded()
     {
-        // this checks if the raycast hits an object in the layer "Ground" some pixels under the player
-        return Physics2D.Raycast(transform.position, Vector2.down, raycast_ground_length, LayerMask.GetMask("Ground"));
+        // origin points for the raycasts
+        Vector2 center = transform.position;
+        Vector2 left = new Vector2(center.x - player_half_width, center.y);
+        Vector2 right = new Vector2(center.x + player_half_width, center.y);
+
+        // check if the raycast are touching ground
+        return Physics2D.Raycast(left, Vector2.down, center_raycast_ground_length, LayerMask.GetMask("Ground"))
+            || Physics2D.Raycast(center, Vector2.down, center_raycast_ground_length, LayerMask.GetMask("Ground"))
+            || Physics2D.Raycast(right, Vector2.down, center_raycast_ground_length, LayerMask.GetMask("Ground"));
     }
 
     void jump()
