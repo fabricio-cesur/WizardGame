@@ -5,59 +5,60 @@ public class Jump : MonoBehaviour
 {
 
     public float force = 13f;
-    public float input_buffer_time = 0.1f;
     private Rigidbody2D rb;
-    private Queue<KeyCode> input_buffer; // queue to save the inputs of the jump
+    
+    public float buffer_time = 0.15f;
+    private float buffer_time_counter;
+
+    private SpriteRenderer sr;
+    private float player_half_height;
+    private float raycast_ground_length;
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
-        input_buffer = new Queue<KeyCode>();
+        sr = transform.Find("PlayerBody").GetComponent<SpriteRenderer>();
+        player_half_height = sr.bounds.extents.y;
+        raycast_ground_length = player_half_height + 0.1f;
     }
 
-    private bool grounded = true;
     void Update()
     {
-        // if you press W it will be saved on the queue
+        // press W and the counter will be set to the according value
         if (Input.GetKeyDown(KeyCode.W))
         {
-            input_buffer.Enqueue(KeyCode.W);
-            Invoke("removeAction", input_buffer_time);
+            buffer_time_counter = buffer_time;
         }
 
-        // if you're touching ground
-        if (grounded)
+        // if the counter is greater than 0 (which will be the case if it was set to the value)
+        // and if it is on the ground it will jump
+        if (buffer_time_counter > 0f && isGrounded())
         {
-            // if the input buffer has more than 1 key pressed saved
-            if (input_buffer.Count > 0)
-            {
-                // if that next pressed key is the jump key
-                if (input_buffer.Peek() == KeyCode.W)
-                {
-                    // object jumps
-                    rb.AddForce(Vector3.up * force, ForceMode2D.Impulse);
-                    // and it's not touching the ground anymore
-                    grounded = false;
-
-                    // removing the action from the queue
-                    input_buffer.Dequeue();
-                }
-            }
+            jump();
+            // the counter will be set to 0 because it just jumped
+            buffer_time_counter = 0f;
+        }
+        else
+        {
+            // if not we start taking from the counter so that
+            // the window to jump only last as long as you stated
+            buffer_time_counter -= Time.deltaTime;
         }
 
+        Debug.DrawRay(transform.position, Vector2.down * raycast_ground_length, Color.red);
     }
-    void OnCollisionEnter2D(Collision2D collision)
+
+    private bool isGrounded()
     {
-        if (collision.gameObject.CompareTag("ground"))
-        {
-            grounded = true;
-        }
+        // this checks if the raycast hits an object in the layer "Ground" some pixels under the player
+        return Physics2D.Raycast(transform.position, Vector2.down, raycast_ground_length, LayerMask.GetMask("Ground"));
     }
 
-    void removeAction()
-    {   
-        if (input_buffer.Count > 0)
-        {
-            input_buffer.Dequeue();
-        }
+    void jump()
+    {
+        // restart the vertical velocity to 0 so that if you add the force
+        // and it is not greater than the gravity force it will still jump
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        // then the vertical up force is added to the object
+        rb.AddForce(Vector3.up * force, ForceMode2D.Impulse);
     }
 }
