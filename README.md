@@ -10,10 +10,10 @@ A quick 2 week unity game project made for a task of my education center. The ta
 - [X] **Keyboard Input** – 1 point  
   Implement keyboard controls for movement, jumping, actions, etc.
 
-- [ ] **Collision Detection** – 1 point  
+- [X] **Collision Detection** – 1 point  
   Include physical interactions between objects (e.g., bumping, collecting, blocking, etc.).
 
-- [ ] **Trigger Detection** – 1 point  
+- [X] **Trigger Detection** – 1 point  
   Activate events through trigger zones (for example, opening doors or gaining points).
 
 - [ ] **Custom Animations** – 1.5 points  
@@ -28,7 +28,7 @@ A quick 2 week unity game project made for a task of my education center. The ta
 - [X] **Use of Rigidbody** – 0.5 points  
   Apply physics to an object using a Rigidbody component.
 
-- [ ] **Object Instantiation** – 0.5 points  
+- [X] **Object Instantiation** – 0.5 points  
   Dynamically create or destroy objects (for example, projectiles or items).
 
 - [ ] **Game Theme** – 1 point  
