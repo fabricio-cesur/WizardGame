@@ -328,8 +328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc565955ba7fe24b915468b94401130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 13
-  input_buffer_time: 0.1
+  force: 20
+  coyote_time: 0.15
+  buffer_time: 0.15
 --- !u!50 &7964066832864814969
 Rigidbody2D:
   serializedVersion: 5
@@ -345,7 +346,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 6
   m_Material: {fileID: 6200000, guid: 99cc04b245fde2e45a866170283def35, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
