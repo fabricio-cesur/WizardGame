@@ -24,6 +24,7 @@ public class Health : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             hp--;
+            Debug.Log("Player was damaged. HP: " + hp);
         }
         if (collision.gameObject.CompareTag("DeathZone"))
         {
