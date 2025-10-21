@@ -47,7 +47,7 @@ Each well-implemented item is worth **+0.5 or +1 point**, depending on its **qua
 - [ ] **User Interface (UI)** – 0.5/1  
   Display in-game information such as lives, time, score, or energy.
 
-- [ ] **Respawn / Restart System** – 0.5  
+- [x] **Respawn / Restart System** – 0.5  
   Allow the player to restart or respawn after losing.
 
 - [ ] **Logo and Credits** – 0.5  
